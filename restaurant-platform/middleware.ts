@@ -5,36 +5,69 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone()
   const hostname = request.headers.get('host') || ''
+  const path = url.pathname
+
+  console.log('=== MIDDLEWARE DEBUG ===')
+  console.log('Hostname:', hostname)
+  console.log('Path:', path)
+
+  // Remove port number for consistent handling
+  const hostWithoutPort = hostname.split(':')[0]
+  const parts = hostWithoutPort.split('.')
   
-  // Extract subdomain (e.g., "chillout" from "chillout.mycompany.com:3000")
-  const subdomain = hostname.split('.')[0]
-  
-  // Skip for www, main domain, or localhost
-  const isMainDomain = subdomain === 'www' || 
-                       subdomain === 'mycompany' || 
-                       hostname.includes('localhost') && subdomain === 'localhost'
-  
-  if (!isMainDomain) {
-    // Rewrite the URL to include the subdomain in the path
-    // This preserves the subdomain concept while using Next.js routing
-    url.pathname = `/${subdomain}${url.pathname}`
-    return NextResponse.rewrite(url)
+  console.log('Host without port:', hostWithoutPort)
+  console.log('Parts:', parts)
+
+  let subdomain = ''
+
+  // Handle localhost
+  if (hostWithoutPort === 'localhost') {
+    subdomain = '' // No subdomain for localhost
   }
-  
-  return NextResponse.next()
+  // Handle IP addresses (like 192.168.20.221)
+  else if (/^\d+\.\d+\.\d+\.\d+$/.test(hostWithoutPort)) {
+    subdomain = '' // No subdomain for IP addresses
+  }
+  // Handle subdomain.yourease.shop (3+ parts)
+  else if (parts.length > 2) {
+    subdomain = parts[0]
+  }
+  // Handle yourease.shop (2 parts)
+  else {
+    subdomain = ''
+  }
+
+  console.log('Extracted subdomain:', subdomain || '(none - root domain)')
+
+  // Don't rewrite for:
+  // - Root domain (no subdomain)
+  // - www subdomain
+  // - API routes
+  // - Static files
+  const isRootDomain = !subdomain || subdomain === 'www'
+  const isApiRoute = path.startsWith('/api')
+  const isStaticFile = path.includes('.') || path.startsWith('/_next')
+
+  if (isRootDomain || isApiRoute || isStaticFile) {
+    console.log('Serving normally (no rewrite)')
+    return NextResponse.next()
+  }
+
+  // Rewrite subdomain requests to the [subdomain] route
+  console.log(`Rewriting to: /${subdomain}${path}`)
+  url.pathname = `/${subdomain}${path}`
+  return NextResponse.rewrite(url)
 }
 
-// Configure which paths the middleware runs on
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Match all request paths except:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
+     * - favicon.ico, sitemap.xml, robots.txt (common files)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|public).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 }
