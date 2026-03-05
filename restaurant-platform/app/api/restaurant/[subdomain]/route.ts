@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { subdomain: string } }
+  { params }: { params: Promise<{ subdomain: string }> }
 ) {
+  // Await the params to get the actual values
+  const { subdomain } = await params;
+  
   // Mock data - same as your page.tsx
   const restaurants: Record<string, any> = {
     'chillout': {
@@ -39,7 +42,7 @@ export async function GET(
     }
   };
   
-  const restaurant = restaurants[params.subdomain];
+  const restaurant = restaurants[subdomain];
   
   if (!restaurant) {
     return NextResponse.json(
