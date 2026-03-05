@@ -128,10 +128,6 @@ export default async function RestaurantPage({ params }: PageProps) {
                   src={restaurant.logo} 
                   alt={restaurant.name}
                   className="h-12 w-auto"
-                  onError={(e) => {
-                    // If logo fails to load, hide it
-                    (e.target as HTMLImageElement).style.display = 'none'
-                  }}
                 />
               ) : null}
               <h1 className="text-2xl font-bold text-white">
@@ -240,4 +236,4 @@ export async function generateMetadata({ params }: PageProps) {
       type: 'website',
     }
   }
-}
+} 
