@@ -1,3 +1,5 @@
+import { log } from "console"
+
 // lib/api.ts
 const API_BASE_URL = process.env.API_BASE_URL || 'https://localhost:7026'
 
