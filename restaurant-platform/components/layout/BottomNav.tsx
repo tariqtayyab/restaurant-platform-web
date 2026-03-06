@@ -20,8 +20,7 @@ export default function BottomNav({ restaurant, subdomain }: BottomNavProps) {
   const secondaryColor = restaurant?.secondaryColor || '#4ECDC4'
   const cartCount = getItemCount()
 
-  // REMOVED: Don't show on checkout page condition
-
+  // FIXED: Use proper subdomain-based paths
   const navItems = [
     { 
       href: `/${subdomain}`, 
@@ -30,18 +29,18 @@ export default function BottomNav({ restaurant, subdomain }: BottomNavProps) {
       exact: true
     },
     { 
-      href: `/search?subdomain=${subdomain}`, 
+      href: `/${subdomain}/search`, 
       icon: FaSearch, 
       label: 'Search' 
     },
     { 
-      href: `/cart?subdomain=${subdomain}`, 
+      href: `/${subdomain}/cart`, 
       icon: FaShoppingCart, 
       label: 'Cart',
       hasBadge: true 
     },
     { 
-      href: `/checkout?subdomain=${subdomain}`, 
+      href: `/${subdomain}/checkout`, 
       icon: FaCreditCard, 
       label: 'Checkout' 
     },
@@ -52,12 +51,11 @@ export default function BottomNav({ restaurant, subdomain }: BottomNavProps) {
     }
   ]
 
-  const isActive = (href?: string, exact?: boolean) => {
-    if (!href) return false
+  const isActive = (href: string, exact?: boolean) => {
     if (exact) {
-      return pathname === href.split('?')[0]
+      return pathname === href
     }
-    return pathname.startsWith(href.split('?')[0])
+    return pathname.startsWith(href)
   }
 
   return (
@@ -125,4 +123,4 @@ export default function BottomNav({ restaurant, subdomain }: BottomNavProps) {
       })}
     </nav>
   )
-}
+}         
