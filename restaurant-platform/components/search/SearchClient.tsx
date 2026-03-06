@@ -51,7 +51,7 @@ export default function SearchClient({ restaurant, subdomain, initialQuery }: Se
     const fetchMenu = async () => {
       try {
         setLoading(true)
-        const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost:7026'
+        const API_BASE_URL = 'http://34.235.60.49'
         const response = await fetch(`${API_BASE_URL}/api/public/website/${subdomain}/menu`, {
           headers: { 'accept': '*/*' }
         })
