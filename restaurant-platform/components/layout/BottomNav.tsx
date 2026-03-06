@@ -21,35 +21,13 @@ export default function BottomNav({ restaurant, subdomain }: BottomNavProps) {
   const cartCount = getItemCount()
 
   // FIXED: Use proper subdomain-based paths
-  const navItems = [
-    { 
-      href: `/${subdomain}`, 
-      icon: FaHome, 
-      label: 'Home',
-      exact: true
-    },
-    { 
-      href: `/${subdomain}/search`, 
-      icon: FaSearch, 
-      label: 'Search' 
-    },
-    { 
-      href: `/${subdomain}/cart`, 
-      icon: FaShoppingCart, 
-      label: 'Cart',
-      hasBadge: true 
-    },
-    { 
-      href: `/${subdomain}/checkout`, 
-      icon: FaCreditCard, 
-      label: 'Checkout' 
-    },
-    { 
-      href: `/${subdomain}/menu`, 
-      icon: FaUtensils, 
-      label: 'Menu' 
-    }
-  ]
+ const navItems = [
+  { href: `/${subdomain}`, icon: FaHome, label: 'Home', exact: true },
+  { href: `/${subdomain}/search`, icon: FaSearch, label: 'Search' },
+  { href: `/${subdomain}/cart`, icon: FaShoppingCart, label: 'Cart', hasBadge: true },
+  { href: `/${subdomain}/checkout`, icon: FaCreditCard, label: 'Checkout' },
+  { href: `/${subdomain}/menu`, icon: FaUtensils, label: 'Menu' }
+]
 
   const isActive = (href: string, exact?: boolean) => {
     if (exact) {
