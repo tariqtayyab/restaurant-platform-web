@@ -68,7 +68,7 @@ export default function CartClient({ restaurant, subdomain }: CartClientProps) {
       <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Back Link */}
         <Link
-          href={`/${subdomain}`}
+          href={`/`}
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors text-sm"
         >
           <FiArrowLeft size={16} />

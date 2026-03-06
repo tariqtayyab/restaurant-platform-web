@@ -98,7 +98,7 @@ export default function Header({ restaurant }: HeaderProps) {
           <div className="flex items-center space-x-2">
             {/* Search Icon */}
             <Link 
-              href={`/search?subdomain=${restaurant.subdomain}`}
+              href={`/search`}
               className="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all text-white"
               aria-label="Search"
             >
@@ -107,7 +107,7 @@ export default function Header({ restaurant }: HeaderProps) {
 
             {/* Cart Icon - NOW LINKS TO CART PAGE */}
             <Link
-              href={`/cart?subdomain=${restaurant.subdomain}`}
+              href={`/cart`}
               className="p-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all text-white relative"
               aria-label="Cart"
             >

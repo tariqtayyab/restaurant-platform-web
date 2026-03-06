@@ -82,7 +82,7 @@ export default function CheckoutClient({ restaurant, subdomain }: CheckoutClient
         {/* Header */}
         <div className="mb-8">
           <Link 
-            href={`/${subdomain}`}
+            href={`/`}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
             style={{ color: '#4B5563' }}
           >
