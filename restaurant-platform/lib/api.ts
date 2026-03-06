@@ -1,5 +1,5 @@
 // lib/api.ts
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL 
+const API_BASE_URL = process.env.API_BASE_URL || 'https://localhost:7026'
 
 export async function fetchRestaurant(subdomain: string) {
   const response = await fetch(`${API_BASE_URL}/api/public/website/${subdomain}`, {
