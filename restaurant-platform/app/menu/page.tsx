@@ -1,8 +1,11 @@
 // app/[subdomain]/menu/page.tsx
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 import { notFound } from 'next/navigation'
 import { fetchRestaurant } from '@/lib/api'
 import PageWrapper from '@/components/layout/PageWrapper'
-import Header from '@/components/layout/Header' // Add Header import
+import Header from '@/components/layout/Header'
 import CategoriesMenu from '@/components/menu/CategoriesMenu'
 
 interface PageProps {
@@ -21,14 +24,14 @@ export default async function MenuPage({ params }: PageProps) {
   
   return (
     <PageWrapper restaurant={restaurant} subdomain={subdomain}>
-      <Header restaurant={restaurant} /> {/* Add Header here */}
+      <Header restaurant={restaurant} />
       <main className="min-h-screen pb-20 md:pb-0">
         <CategoriesMenu 
-  restaurantName={restaurant.heroTitle}
-  primaryColor={restaurant.primaryColor}
-  secondaryColor={restaurant.secondaryColor}
-  subdomain={subdomain} // Add this
-/>
+          restaurantName={restaurant.heroTitle}
+          primaryColor={restaurant.primaryColor}
+          secondaryColor={restaurant.secondaryColor}
+          subdomain={subdomain}
+        />
       </main>
     </PageWrapper>
   )

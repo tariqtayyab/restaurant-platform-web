@@ -39,12 +39,24 @@ export default function CategoriesMenu({
   const [showFilters, setShowFilters] = useState(false)
   const [visibleRows, setVisibleRows] = useState(4) // Show 4 rows initially
 
-  // Fetch menu data from API
+  // Fetch menu data from API - only on client side
   useEffect(() => {
+    let isMounted = true
+    
     const fetchMenu = async () => {
       try {
         setLoading(true)
-        const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost:7026'
+        
+        // Only fetch on client side
+        if (typeof window === 'undefined') return
+        
+        const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+        if (!API_BASE_URL) {
+          console.error('NEXT_PUBLIC_API_BASE_URL is not defined')
+          setLoading(false)
+          return
+        }
+        
         const response = await fetch(`${API_BASE_URL}/api/public/website/${subdomain}/menu`, {
           headers: { 'accept': '*/*' }
         })
@@ -52,18 +64,26 @@ export default function CategoriesMenu({
         if (!response.ok) throw new Error('Failed to fetch menu')
         
         const result = await response.json()
-        if (result.responseCode === '00' && result.data) {
+        if (isMounted && result.responseCode === '00' && result.data) {
           setCategories(result.data.categories || [])
         }
       } catch (error) {
-        console.error('Error fetching menu:', error)
+        if (isMounted) {
+          console.error('Error fetching menu:', error)
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
 
     if (subdomain) {
       fetchMenu()
+    }
+
+    return () => {
+      isMounted = false
     }
   }, [subdomain])
 
