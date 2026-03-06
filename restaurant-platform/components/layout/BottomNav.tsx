@@ -22,11 +22,11 @@ export default function BottomNav({ restaurant, subdomain }: BottomNavProps) {
 
   // FIXED: Use proper subdomain-based paths
  const navItems = [
-  { href: `/${subdomain}`, icon: FaHome, label: 'Home', exact: true },
-  { href: `/${subdomain}/search`, icon: FaSearch, label: 'Search' },
-  { href: `/${subdomain}/cart`, icon: FaShoppingCart, label: 'Cart', hasBadge: true },
-  { href: `/${subdomain}/checkout`, icon: FaCreditCard, label: 'Checkout' },
-  { href: `/${subdomain}/menu`, icon: FaUtensils, label: 'Menu' }
+  { href: `/`, icon: FaHome, label: 'Home', exact: true },
+  { href: `/search`, icon: FaSearch, label: 'Search' },
+  { href: `/cart`, icon: FaShoppingCart, label: 'Cart', hasBadge: true },
+  { href: `/checkout`, icon: FaCreditCard, label: 'Checkout' },
+  { href: `/menu`, icon: FaUtensils, label: 'Menu' }
 ]
 
   const isActive = (href: string, exact?: boolean) => {
