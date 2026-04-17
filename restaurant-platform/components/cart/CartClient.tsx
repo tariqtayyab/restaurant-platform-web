@@ -49,7 +49,7 @@ export default function CartClient({ restaurant, subdomain }: CartClientProps) {
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
           <p className="text-gray-600 mb-6">Looks like you haven't added any items yet</p>
           <Link
-            href={`/${subdomain}`}
+            href={`/`}
             className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-white rounded-xl font-medium transition-all hover:shadow-lg"
             style={{ backgroundColor: primaryColor }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = secondaryColor}
