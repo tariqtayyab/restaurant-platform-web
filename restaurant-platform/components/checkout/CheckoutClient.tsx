@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
 import { Restaurant } from '../types'
-import { FiArrowLeft, FiMapPin, FiPhone, FiUser, FiClock, FiEdit3 } from 'react-icons/fi'
+import { FiArrowLeft, FiMapPin, FiPhone, FiUser, FiClock, FiEdit3, FiShoppingBag } from 'react-icons/fi'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -34,13 +34,6 @@ export default function CheckoutClient({ restaurant, subdomain }: CheckoutClient
   const primaryColor = restaurant?.primaryColor || '#FF6B6B'
   const secondaryColor = restaurant?.secondaryColor || '#4ECDC4'
 
-  // Redirect if cart is empty
-  useEffect(() => {
-    if (items.length === 0) {
-      router.push(`/${subdomain}`)
-    }
-  }, [items, router, subdomain])
-
   const formatPrice = (price: number) => {
     return `Rs ${price.toLocaleString('en-IN', {
       maximumFractionDigits: 0
@@ -63,7 +56,7 @@ export default function CheckoutClient({ restaurant, subdomain }: CheckoutClient
     setTimeout(() => {
       alert('Order placed successfully! 🎉')
       clearCart()
-      router.push(`/${subdomain}`)
+      router.push(`/`)
       setIsPlacingOrder(false)
     }, 2000)
   }
@@ -72,8 +65,31 @@ export default function CheckoutClient({ restaurant, subdomain }: CheckoutClient
     return formData.fullName && formData.phone && formData.address
   }
 
+  // Show empty cart UI if no items
   if (items.length === 0) {
-    return null // Will redirect via useEffect
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 p-4">
+        <div className="text-center max-w-md w-full">
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
+              <FiShoppingBag size={40} className="text-gray-400" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
+          <p className="text-gray-600 mb-6">You need to add items to your cart before proceeding to checkout.</p>
+          <Link
+            href={`/menu`}
+            className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 text-white rounded-xl font-medium transition-all hover:shadow-lg"
+            style={{ backgroundColor: primaryColor }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = secondaryColor}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = primaryColor}
+          >
+            <FiArrowLeft size={18} />
+            Browse Our Menu
+          </Link>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -82,11 +98,11 @@ export default function CheckoutClient({ restaurant, subdomain }: CheckoutClient
         {/* Header */}
         <div className="mb-8">
           <Link 
-            href={`/`}
+            href={`/cart`}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
             style={{ color: '#4B5563' }}
           >
-            <FiArrowLeft /> Back to Menu
+            <FiArrowLeft /> Back to Cart
           </Link>
           <h1 className="text-3xl md:text-4xl font-bold">
             <span style={{ color: primaryColor }}>Complete Your Order</span>
@@ -98,7 +114,7 @@ export default function CheckoutClient({ restaurant, subdomain }: CheckoutClient
           {/* Checkout Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-100">
-              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-gray-700 mb-2">
+              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-gray-700">
                 <FiUser style={{ color: primaryColor }} />
                 Delivery Information
               </h2>
