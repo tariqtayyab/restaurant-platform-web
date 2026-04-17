@@ -42,3 +42,7 @@ body {
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 }
+
+body {
+  @apply bg-white text-gray-900;
+}
